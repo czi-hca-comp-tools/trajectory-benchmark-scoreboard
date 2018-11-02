@@ -1,0 +1,1 @@
+{"Pearson_coefficient": -0.2627923263327069, "Pearson_pvalue": 2.944101136204079e-17, "Spearman_coefficient": -0.2958556302624611, "Spearman_pvalue": 1.1904690515997853e-21, "kendalltau_coefficient": -0.2005145563735195, "kendalltau_pvalue": 2.6018871128407595e-21}
