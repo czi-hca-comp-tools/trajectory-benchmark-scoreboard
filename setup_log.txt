@@ -1,0 +1,54 @@
+Conda env:
+
+conda install jupyter pandas django nodejs numpy sqlalchemy psycopg2
+pip install bash_kernel
+python -m bash_kernel.install
+
+python BuildDatabase.py  (missing init)
+
+python manage.py migrate
+python manage.py inspectdb > benchmark/models.py
+replace in models max_length=-1 with max_length=1000
+python manage.py createsuperuser
+
+
+Installing scoreboard from scratch:
+
+Prereqs
+Node/NPM
+Docker
+ Python3 (for database script)
+Initial Setup
+Get Github OAuth key
+In Github
+Settings -> Developer settings -> OAuth Apps
+Click New OAuth App
+Name -> Scoreboard, Homepage -> http://localhost:9001, Authorization callback URL -> http://localhost:9001/auth/github/callback
+Click Register Application
+Setup Postgres docker container
+docker pull postgres
+sudo docker run -p 5433:5432 --name scoreboard -e POSTGRES_PASSWORD=scoreboard -e POSTGRES_DB=scoreboard -d postgres (You can change the password)
+Create a challenge scoring container
+Example at: scoreboard/docker at master · chanzuckerberg/scoreboard · GitHub
+Container takes a results text file and prints out json of format
+{“data": [0.9, 0.9, 0.9], "additionalData": [[0.95, 0.95, 0.9500000000000001], [0.9, 0.9, 0.9], [0.9, 0.9, 0.9], [0.75, 0.75, 0.75], [0.95, 0.95, 0.9500000000000001], [0.95, 0.95, 0.9500000000000001], [0.95, 0.95, 0.9500000000000001], [0.9, 0.9, 0.9], [0.85, 0.85, 0.85]], "error": "this is an error"}
+Build and tag container
+docker build -t <containtername> -f Dockerfile .
+Setup Config
+Database config file see initialize.json
+App config file. See scoreboard.cfg.js
+
+Setup environment
+(Put this in your bash file for easy access)
+export SCOREBOARD_PG_PASSWORD=“postgres”
+export SCOREBOARD_PG_USERNAME=“postgres”
+export SCOREBOARD_PG_PORT=5433
+export SCOREBOARD_GH_APPID=“<gh app id>”
+export SCOREBOARD_GH_SECRET=“<gh app secret>"
+Build and launch scoreboard
+Clone scoreboard git clone https://github.com/chanzuckerberg/scoreboard.git
+Checkout production branch git checkout production
+Install dependencies npm install
+Build client npm run build
+Launch server node server
+Go to site http://127.0.0.1:9000/
