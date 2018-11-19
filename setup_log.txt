@@ -1,6 +1,10 @@
 Conda env:
+conda create -n traj_scoreboard jupyter pandas django nodejs numpy sqlalchemy psycopg2
+
+or 
 
 conda install jupyter pandas django nodejs numpy sqlalchemy psycopg2
+
 pip install bash_kernel
 python -m bash_kernel.install
 
